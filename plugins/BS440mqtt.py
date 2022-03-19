@@ -38,7 +38,7 @@ import os
 import json
 import ssl
 
-from ConfigParser import SafeConfigParser
+from configparser import ConfigParser
 import paho.mqtt.publish as publish
 
 __author__ = 'jinnerbichler'
@@ -58,7 +58,7 @@ class Plugin:
 
         # read ini file from same location as plugin resides, named [pluginname].ini
         configfile = os.path.dirname(os.path.realpath(__file__)) + '/' + __name__ + '.ini'
-        plugin_config = SafeConfigParser()
+        plugin_config = ConfigParser()
         plugin_config.read(configfile)
         logger.info('Read config from: ' + configfile)
 

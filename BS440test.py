@@ -13,9 +13,9 @@
 # Date:     22/2/17
 #
 #------------------------------------------------------------------------------------------
-from __future__ import print_function
+
 import logging
-from ConfigParser import SafeConfigParser
+from configparser import ConfigParser
 import time
 import subprocess
 from struct import *
@@ -34,7 +34,7 @@ def randomize_a_bit(value):
 '''
 Main program loop
 '''
-config = SafeConfigParser()
+config = ConfigParser()
 config.read('BS440test.ini')
 path = "plugins/"
 plugins = {}
@@ -48,8 +48,9 @@ if not isinstance(numeric_level, int):
 logging.basicConfig(level=numeric_level,
                     format='%(asctime)s %(levelname)-8s %(funcName)s %(message)s',
                     datefmt='%a, %d %b %Y %H:%M:%S',
-                    filename=config.get('Program', 'logfile'),
-                    filemode='w')
+#                    filename=config.get('Program', 'logfile'),
+#                    filemode='w'
+                    )
 log = logging.getLogger(__name__)
 
 # Load configured plugins
@@ -86,7 +87,7 @@ persondict["size"] = float(config.get('Scaledata', 'size'))
 persondict["activity"] = config.get('Scaledata', 'activity')
 persondata.append(persondict)
 
-for i in range (0,29):
+for i in range (0,3):
     weightdict = {}
     weightdict["valid"] = True
     # generate weighings per day
@@ -115,7 +116,7 @@ if persondata and weightdata and bodydata:
     bodydatasorted = sorted(bodydata, key=lambda k: k['timestamp'], reverse=True)
     
     # Run all plugins found
-    for plugin in plugins.values():
+    for plugin in list(plugins.values()):
         plugin.execute(config, persondata, weightdatasorted, bodydatasorted)
 else:
     log.error('No valid testdata found. Unable to process')

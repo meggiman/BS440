@@ -9,9 +9,9 @@
 # Edited by: Sjoerd91
 #
 #------------------------------------------------------------------------------------------
-from ConfigParser import *
+from configparser import *
 import os
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import base64
 import logging
 import time
@@ -32,8 +32,8 @@ class Plugin:
 		global log
 		log.debug('Opening url: %s' % (url))
 		try:
-			response = urllib.urlopen(url)
-		except Exception, e:
+			response = urllib.request.urlopen(url)
+		except Exception as e:
 			log.error('open_url: Failed to send data to Domoticz (%s)' % (url))
 			return 'None'
 		return response
@@ -196,7 +196,7 @@ class Plugin:
 		log.info('Starting plugin: ' + __name__)
 		#read ini file from same location as plugin resides, named [pluginname].ini
 		configfile = os.path.dirname(os.path.realpath(__file__)) + '/' + __name__ + '.ini'
-		pluginconfig = SafeConfigParser()
+		pluginconfig = ConfigParser()
 		pluginconfig.read(configfile)
 		log.info('ini read from: ' + configfile)
 

@@ -10,7 +10,7 @@
 #
 #
 #------------------------------------------------------------------------------------------
-from ConfigParser import SafeConfigParser
+from configparser import ConfigParser
 import logging
 import os
 import httplib2
@@ -19,9 +19,7 @@ import time
 import yaml
 import argparse
 import datetime
-import dateutil.tz
-import dateutil.parser
-from apiclient.discovery import build
+from googleapiclient.discovery import build
 from oauth2client.file import Storage
 from oauth2client.client import OAuth2Credentials
 from googleapiclient.errors import HttpError
@@ -75,7 +73,7 @@ class Plugin:
             googleClient.users().dataSources().get(
                 userId='me',
                 dataSourceId=dataSourceId).execute()
-        except HttpError, error:
+        except HttpError as error:
             if 'DataSourceId not found' not in str(error):
                 raise error
             googleClient.users().dataSources().create(
@@ -139,7 +137,7 @@ class Plugin:
         log.info('Starting plugin: ' + __name__)
         #read ini file from same location as plugin resides, named [pluginname].ini
         configfile = os.path.dirname(os.path.realpath(__file__)) + '/' + __name__ + '.ini'
-        pluginconfig = SafeConfigParser()
+        pluginconfig = ConfigParser()
         pluginconfig.read(configfile)
         log.info('ini read from: ' + configfile)
 

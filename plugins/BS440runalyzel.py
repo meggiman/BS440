@@ -8,7 +8,7 @@
 # Author: genlinut
 #
 # ------------------------------------------------------------------------------------------
-from ConfigParser import SafeConfigParser
+from configparser import ConfigParser
 import logging
 import os
 import MySQLdb
@@ -28,7 +28,7 @@ class Plugin:
         log.info('Starting plugin: ' + __name__)
         # read ini file from same location as plugin resides, named [pluginname].ini
         configfile = os.path.dirname(os.path.realpath(__file__)) + '/' + __name__ + '.ini'
-        pluginconfig = SafeConfigParser()
+        pluginconfig = ConfigParser()
         pluginconfig.read(configfile)
         log.info('ini read from: ' + configfile)
         # Thats it! From here do your thing with the data.

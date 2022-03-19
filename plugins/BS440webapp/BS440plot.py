@@ -24,7 +24,7 @@ import plotly.graph_objs as go
 import plotly.offline as plotly
 import argparse
 from datetime import datetime, timedelta
-from ConfigParser import SafeConfigParser
+from configparser import ConfigParser
 from math import radians, cos, sin
 from scipy import stats
 import logging
@@ -35,9 +35,9 @@ import sys
 # Functions
 #-----------------------------------------------------------------------------------------
 def update_plotlyjs_for_offline():
-	import urllib2
+	import urllib.request, urllib.error, urllib.parse
 	cdn_url = 'https://cdn.plot.ly/plotly-latest.min.js'
-	response = urllib2.urlopen(cdn_url)
+	response = urllib.request.urlopen(cdn_url)
 	html = response.read()
 	f = open('./static/plotly.min.js', 'w')
     	f.write(html)
@@ -202,7 +202,7 @@ csvFile = '../BS440csv/' + str(personID) + '.csv'
 csvPath = os.path.join(dirname, csvFile)
 
 # BS440webapp config
-config = SafeConfigParser()
+config = ConfigParser()
 config.read('BS440webapp.ini')
 personsection = 'Person' + str(personID)
 

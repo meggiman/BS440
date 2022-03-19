@@ -1,7 +1,7 @@
-from __future__ import print_function
+
 import pygatt.backends
 import logging
-from ConfigParser import SafeConfigParser
+from configparser import ConfigParser
 import time
 import subprocess
 from struct import *
@@ -55,12 +55,12 @@ def decodePerson(handle, values):
 
 def sanitize_timestamp(timestamp):
     retTS = 0
-    if timestamp + time_offset < sys.maxint:
+    if timestamp + time_offset < sys.maxsize:
         retTS = timestamp + time_offset
     else:
         retTS = timestamp
 
-    if timestamp >= sys.maxint:
+    if timestamp >= sys.maxsize:
         retTS = 0
 
     return retTS
@@ -189,7 +189,7 @@ def init_ble_mode():
 '''
 Main program loop
 '''
-config = SafeConfigParser()
+config = ConfigParser()
 config.read('BS440.ini')
 path = "plugins/"
 plugins = {}
@@ -319,7 +319,7 @@ while True:
                     bodydatasorted = sorted(bodydata, key=lambda k: k['timestamp'], reverse=True)
                     
                     # Run all plugins found
-                    for plugin in plugins.values():
+                    for plugin in list(plugins.values()):
                         plugin.execute(config, persondata, weightdatasorted, bodydatasorted)
                 else:
                     log.error('Unreliable data received. Unable to process')

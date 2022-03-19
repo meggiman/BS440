@@ -102,8 +102,8 @@ class Plugin:
             payload.update(persondata[0])
             payload['model'] = model
 
-            tags = {k: v for k, v in payload.items() if k in self.tags}
-            for k in tags.keys():
+            tags = {k: v for k, v in list(payload.items()) if k in self.tags}
+            for k in list(tags.keys()):
                     del payload[k]
 
             ts = payload['timestamp']
