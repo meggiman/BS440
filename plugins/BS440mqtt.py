@@ -66,7 +66,7 @@ class Plugin:
         mqtt_config = dict(plugin_config.items('MQTT'))
         self.mqtt_args = {'client_id': mqtt_config['client_id'],
                           'hostname': mqtt_config['hostname'],
-                          'port': mqtt_config['port'],
+                          'port': int(mqtt_config['port']),
                           'retain': True}
 
         tls = {}
