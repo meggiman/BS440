@@ -100,7 +100,12 @@ class Plugin:
             for key, mapped_key in dict(pluginconfig.items(person_section)).items():
                 if key in KNOWN_KEYS:
                     log.info(f"Updating {mapped_key} values for user {scaleuser}")
-                    self.update_measurements(client, new_data=bodydata, internal_key=key, fitness_pal_key=mapped_key)
+                    self.update_measurements(
+                        client,
+                        [data for data in bodydata if int(data['person']) == person_id] ,
+                        internal_key=key,
+                        fitness_pal_key=mapped_key
+                    )
 
 
         # finally end this plugin execution with
