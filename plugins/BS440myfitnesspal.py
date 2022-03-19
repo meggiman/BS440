@@ -69,7 +69,10 @@ class Plugin:
         self.person_clients = {}
         for person_section in pluginconfig.sections():
             try:
-                person_id = int(person_section.removeprefix("Person"))
+                if person_section.startswith("Person"):
+                    person_id = int(person_section[len("Person"):])
+                else:
+                    raise ValueError("Illegal section")
             except ValueError:
                 logging.error(f"Illegal section name {person_section}. Expected person configs with section name of "
                               f"the form 'Person<nr>'.")
